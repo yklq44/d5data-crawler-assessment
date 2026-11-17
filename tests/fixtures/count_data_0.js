@@ -1,0 +1,5 @@
+var DISQUSWIDGETS;
+
+if (typeof DISQUSWIDGETS != 'undefined') {
+    DISQUSWIDGETS.displayCount({"text":{"and":"and","comments":{"zero":" ","multiple":"{num} comments","one":"1 comment"}},"counts":[{"id":"128966 https:\/\/mitadmissions.org\/?p=128966","comments":4},{"id":"129418 https:\/\/mitadmissions.org\/?p=129418","comments":2},{"id":"129175 https:\/\/mitadmissions.org\/?p=129175","comments":3},{"id":"128770 https:\/\/mitadmissions.org\/?p=128770","comments":7},{"id":"129118 https:\/\/mitadmissions.org\/?p=129118","comments":13},{"id":"129396 https:\/\/mitadmissions.org\/?p=129396","comments":5},{"id":"128897 https:\/\/mitadmissions.org\/?p=128897","comments":5},{"id":"128669 https:\/\/mitadmissions.org\/?p=128669","comments":5},{"id":"129411 https:\/\/mitadmissions.org\/?p=129411","comments":1},{"id":"128898 https:\/\/mitadmissions.org\/?p=128898","comments":5}]});
+}

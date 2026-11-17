@@ -1,0 +1,5 @@
+* text=auto eol=lf
+# Saved pages and CSV results are kept byte for byte (CSV rows end with CRLF per RFC 4180).
+tests/fixtures/** -text
+*.csv -text
+*.zip binary
