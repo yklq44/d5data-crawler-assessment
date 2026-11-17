@@ -238,6 +238,10 @@ def browser_options(options: Options) -> ChromiumOptions:
     co.headless(not options.headed)
     co.no_imgs(True)
     co.mute(True)
+    if sys.platform.startswith('linux'):
+        # Playwright's default as well: recent Ubuntu releases deny Chrome's sandbox
+        # the user namespaces it needs, and Chrome then exits at startup.
+        co.set_argument('--no-sandbox')
     # get() returns once the navigation has started and read_html() waits for DOMContentLoaded.
     # The eager mode would do the same, but it also stops loading from a timer thread that can
     # fire during a later navigation of the same tab and abort it.
