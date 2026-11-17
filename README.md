@@ -21,7 +21,7 @@ Both crawls ran on 17 November 2026.
 - **Samples:** [`samples/`](samples/) holds the first two listing pages (32 posts) from each crawler, small enough to preview on GitHub.
 - **Cross-check:** the two CSV files are byte-for-byte identical (SHA-256 `d9c15ec7…8376`). `compare.py`, which matches posts by URL and compares every column, finds all 7,864 posts in both files and no difference.
 
-The dataset has 191 authors, 124,402 comments and 35,894 image URLs. The longest post, "Two hundred puzzles", is 151,652 characters long. 46 posts have no text: 39 consist only of images, which are listed in Images In Article, and 7 only of a video (YouTube, an MP4 file or a Flash player), which none of the columns covers.
+The dataset has 191 authors, 124,402 comments and 35,894 image URLs. The longest post, "Two hundred puzzles, fifty weeks later", is 151,652 characters long. 46 posts have no text: 39 consist only of images, which are listed in Images In Article, and 7 only of a video (YouTube, an MP4 file or a Flash player), which none of the columns covers.
 
 ## CSV format
 
@@ -34,7 +34,7 @@ The six required columns come first, followed by three extra columns.
 | Comment Count | Number of comments, read from Disqus or WordPress depending on the post's age (see [Comment counts](#comment-counts)). Posts whose comments were closed have `0`. |
 | Time | Publication time in ISO 8601, in US Eastern Time (the site's time zone), for example `2026-11-16T21:51:07-05:00`. |
 | Article Content | Plain text of the post body. Paragraphs are separated by a blank line, list items start with `- ` or `1. `, footnote markers are written `[1]`, and the footnotes follow the text under `Footnotes:`. Image captions are kept. Scripts, embedded players, hidden notices and carousel buttons are left out. |
-| Images In Article | URLs of the images in the post body, one per line, in reading order. Gallery slides are included; emoji and smileys are not. Each URL is the image the page displays (its `src`, usually a resized copy made by WordPress). |
+| Images In Article | URLs of the images in the post body, one per line, in reading order. Gallery slides are included. Emoji and smileys that the blog software put in place of typed emoji and emoticons are left out; the few emoji and smiley images that authors pasted from other sites are kept like any other image. Each URL is the image the page displays (its `src`, usually a resized copy made by WordPress). |
 | URL | Address of the post. |
 | Subtitle | Subtitle shown under the title (often empty on old posts). |
 | Categories | Category names separated by `; `. |
@@ -104,7 +104,7 @@ Most of these showed up only on the full crawl, which is why both crawlers were 
 - **A stale document stopped a run.** After 2,558 posts, DrissionPage read an empty page. `tab.html` serializes a document node that DrissionPage caches and updates from page events; when an event of the previous page is handled late, that node can be stale or empty. lxml's error was not a parse error, so it escaped the retry loop and stopped the crawl. The same race could also have returned the previous post; none had, as the comparison with Playwright showed. The crawler now reads the HTML with one `Runtime.evaluate` in the live page once `DOMContentLoaded` has been handled, and marks each document as read. Unreadable pages are retried, and an unexpected error in one post is logged without stopping the crawl.
 - **Turning JavaScript off lost content.** An intermediate version loaded posts with JavaScript disabled. Compared with the previous full run, "The Periodic Table of MIT" came out without its table, which an inline script builds. Filtering requests keeps inline scripts running and still stops the dead embeds.
 - **E-mail addresses were hidden.** Cloudflare replaces addresses with `[email protected]` and decodes them with an external script. With that script blocked, 183 posts in the first Playwright run contained the placeholder, while DrissionPage, which let it run, had the real addresses. The parser now decodes the `data-cfemail` attribute itself, so both crawlers produce the real addresses.
-- **One post is longer than Python's default CSV field limit.** "Two hundred puzzles" is about 150,000 characters, above the default limit of 131,072. `compare.py` and the tests raise the limit before reading.
+- **One post is longer than Python's default CSV field limit.** "Two hundred puzzles, fifty weeks later" has 151,652 characters, above the default limit of 131,072. `compare.py` and the tests raise the limit before reading.
 
 ## Usage
 
